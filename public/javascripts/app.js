@@ -29,8 +29,8 @@ libApp.controller('mode',function($scope, $http){
     })
       .success(function(records) {
         $scope.thumbnails = [];
-        console.log(records);
-        if(records.length == 0) {
+        console.log(records[0]);
+        if(records[0] === null) {
           alert("No books in database.");
         }
         for(i in records){
