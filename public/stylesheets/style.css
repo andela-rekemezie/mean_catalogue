@@ -1,0 +1,26 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.setTop {
+  padding: 30px;
+  position: absolute;
+  top: 55px;
+  width: 100%;
+}
+
+.img_thumb {
+  padding: 5px;
+  width: 100%;
+}
+
+.thumbnail>img {
+  margin:0;
+}
+
+h3 {
+  margin-top: 5px;
+}
+a {
+  color: #00B7FF;
+}

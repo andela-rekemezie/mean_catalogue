@@ -1,0 +1,135 @@
+<!DOCTYPE>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Library</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <link rel='stylesheet' href='stylesheets/style.css'>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src='javascripts/app.js'></script>
+</head>
+
+<body ng-app='libApp' ng-controller='mode'>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">Amresh's Library</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ng-repeat='option in options' ng-click='select($index)' ng-class='{active: $index == selected}'><a>{{option}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+<div class='container setTop'>
+
+  <div class='well' id='browse' ng-if="browseMode === true">
+  <h1>Search for books</h1>
+  <form id='browseForm' ng-submit='search()'>
+    <div class='form-group'>
+      <input name='query' ng-model='searchForm.query' class='form-control' type='text' placeholder='Type name (or part of name) to search a book'>
+    </div>
+    <div class='form-group'>
+      <label>View All:
+        <input type='checkbox' ng-model='searchForm.all' value='all' name='all'>(Ignores search query)
+      </label>
+    </div>
+    <div class='form-group'>
+      <input class='btn btn-block btn-success' type='submit' value='search'>
+    </div>
+  </form>
+  <pre>
+    {{ searchForm }}
+  </pre>
+  </div>
+
+  <div class='well' id='add' ng-if="browseMode !== true">
+  <h1>Add a new book to library</h1>
+  <form id='addForm' ng-submit='insert()'>
+    <!-- action='/add' method='post' -->
+    <div class='form-group input-group'>
+      <span class='input-group-addon'>Name</span>
+      <input name='title' ng-model='addForm.title' class='form-control' type='text' placeholder='Enter Name of the book' required="true">
+    </div>
+    <div class='form-group input-group'>
+      <span class='input-group-addon'>Author</span>
+      <input name='author' ng-model='addForm.author' class='form-control' type='text' placeholder='Enter Author of this book' required="true">
+    </div>
+    <div class='form-group input-group'>
+      <span class='input-group-addon'>Image-URL</span>
+      <input name='imageUrl' ng-model='addForm.imageUrl' class='form-control' type='text' placeholder='Enter an Image url for this book' required="true">
+    </div>
+    <div class='form-group input-group'>
+      <span class='input-group-addon'>Cost</span>
+      <input name='cost' ng-model='addForm.cost' class='form-control' type='number' step='0.01' placeholder='Enter the price of this book (numbers only!)' required="true">
+    </div>
+    <div class='form-group'>
+      <input class='btn btn-block btn-success' type='submit' value='Submit'>
+    </div>
+  </form>
+  <pre>
+    {{ addForm }}
+  </pre>
+  </div>
+
+  <!-- <div class='row'> -->
+  <div class="col-sm-6 col-md-3" ng-repeat="thumbnail in thumbnails" ng-if="browseMode === true">
+    <div class="thumbnail">
+
+      <div ng-hide='formSet'>
+        <img class='img_thumb' src="{{thumbnail.imageUrl}}" alt="{{thumbnail.title}}">
+        <div class='caption'>
+          <h2>{{thumbnail.title}}</h2>
+          <h3>Author: {{thumbnail.author}}</h3>
+          <h3>Price: {{thumbnail.cost | currency:'INR '}}</h3>
+        </div>
+      </div>
+
+      <label>
+        <input type="checkbox" data-toggle="toggle" ng-model='formSet'>
+        Edit this Book.
+      </label>
+
+      <div ng-show='formSet'>
+        <form ng-submit="update(thumbnail._id)">
+          <div class='form-group'>
+            <input type='hidden' ng-model='thumbnail.id' class='form-control' value="{{thumbnail._id}}">
+          </div>
+          <div class='form-group'>
+            <input type='text' ng-model='thumbnail.imageUrl' class='form-control' value="{{thumbnail.imageUrl}}">
+          </div>
+          <div class='form-group'>
+            <input type='text' ng-model='thumbnail.title' class='form-control' value="{{thumbnail.title}}">
+          </div>
+          <div class='form-group'>
+            <input type='text' ng-model='thumbnail.author' class='form-control' value="{{thumbnail.author}}">
+          </div>
+          <div class='form-group'>
+            <input type='text' ng-model='thumbnail.cost' class='form-control' value="{{thumbnail.cost  | currency:'INR ' }}">
+          </div>
+            <button class="btn btn-block btn-danger" role="button" ng-click="delete(thumbnail._id)">Delete</button>
+            <input class="btn btn-block btn-primary" type='submit' value='Update'>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+</div>
+
+</body>
+</html>
